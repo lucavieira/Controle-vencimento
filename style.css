@@ -1,0 +1,75 @@
+* {
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+}
+
+body {
+    height: 100vh;
+
+    background-color: #000010;
+    color: #fff;
+}
+
+main, .calendario {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+main {
+    height: 100vh;
+
+    gap: 50px;
+}
+
+.btn {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+
+.calendario {
+    max-width: 800px;
+
+    padding: 15px 0px;
+
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+
+    gap: 20px;
+}
+
+.ano, .mes {
+    width: 100%;
+
+    text-align: center;
+
+    border-bottom: 1px solid #ccc;
+}
+
+.dias {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+
+    padding-left: 25px
+}
+
+.dia {
+    width: 75px;
+    height: 75px;
+
+    border: 1px solid #fff;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    cursor: pointer;
+}
+
+.dia-produto {
+    background-color: #0f0c0c;
+}
