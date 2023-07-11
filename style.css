@@ -31,7 +31,7 @@ main {
 }
 
 .calendario {
-    max-width: 800px;
+    max-width: 492px;
 
     padding: 15px 0px;
 
@@ -41,25 +41,26 @@ main {
     gap: 20px;
 }
 
-.ano, .mes {
+#ano, #mes {
     width: 100%;
 
     text-align: center;
 
     border-bottom: 1px solid #ccc;
+
+    padding-bottom: 15px;
 }
 
 .dias {
     display: flex;
     flex-wrap: wrap;
+    padding: 10px;
     gap: 20px;
-
-    padding-left: 25px
 }
 
 .dia {
-    width: 75px;
-    height: 75px;
+    width: 50px;
+    height: 50px;
 
     border: 1px solid #fff;
 
