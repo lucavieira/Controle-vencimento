@@ -4,6 +4,8 @@ const currentYear = document.querySelector('#ano')
 const currentMonth = document.querySelector('#mes')
 const calendary = document.querySelector('#container-calendario')
 const containerDay = document.querySelector('#container-dias')
+const products = document.getElementById('produtos')
+const closeButton = document.querySelector('#btn-close')
 
 // Preenchendo o campo dos meses
 month.forEach((mes, index) => {
@@ -22,6 +24,8 @@ function changeDate() {
         let boxDay = document.createElement('div')
         boxDay.classList.add('dia')
         boxDay.innerHTML = day
+
+        boxDay.addEventListener('click', showProducts)
     
         containerDay.appendChild(boxDay)
     }
@@ -34,6 +38,21 @@ function removeDays() {
         containerDay.removeChild(containerDay.children[day])
     }
 }
+
+// Função para cadastrar produto
+function addProduct() {
+    console.log('Add Products')
+}
+
+// Função para mostrar os Produtos a vencer
+function showProducts() {
+    products.style.display = 'flex'
+}
+
+// Função para fechar janela de mostrar produtos
+closeButton.addEventListener('click', () => {
+    products.style.display = 'none'
+})
 
 // Eventos ao mudar valor do ano ou do mês
 currentMonth.addEventListener('change', () => {
