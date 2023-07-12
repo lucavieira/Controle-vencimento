@@ -11,7 +11,6 @@
 <body>
     <main>
         <h1>Controle de Vencimento</h1>
-        <button class="btn">Cadastrar Produto</button>
         <div class="calendario" id="container-calendario">
             <select name="ano" id="ano">
                 <option value="2023">2023</option>
@@ -23,9 +22,35 @@
         <div id="produtos">
             <div id="container-produtos">
                 <h3>Produtos a vencer</h3>
-                <button id="btn-add">Adicionar Produto</button>
+                <div id="produto"></div>
             </div>
-            <button id="btn-close">X</button>
+            <button class="btnClose" id="btn-close-produtos">X</button>
+        </div>
+        <button class="btn" id="btn-add">Adicionar Produto</button>
+        <div id="cadastro">
+            <div id="container-cadastro">
+                <h3>Cadastro de Produtos</h3>
+                <div id="form-cadastro">
+                    <label for="nome-produto">
+                        Nome do Produto
+                        <input type="text" name="nome-produto" id="nome-produto" placeholder="Nome do Produto">
+                    </label>
+                    <label for="ean-produto">
+                        EAN
+                        <input type="number" name="ean-produto" id="ean-produto" placeholder="7898357417892">
+                    </label>
+                    <label for="vencimento-produto">
+                        Validade
+                        <input type="date" name="vencimento-produto" id="vencimento-produto">
+                    </label>
+                    <label for="quantidade-produto">
+                        Quantidade
+                        <input type="number" name="quantidade-produto" id="quantidade-produto">
+                    </label>
+                    <button class="btn" id="btn-save">Salvar</button>
+                </div>
+            </div>
+            <button class="btnClose" id="btn-close-cadastro">X</button>
         </div>
     </main>
     <script src="script.js"></script>

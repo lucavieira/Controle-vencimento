@@ -5,7 +5,18 @@ const currentMonth = document.querySelector('#mes')
 const calendary = document.querySelector('#container-calendario')
 const containerDay = document.querySelector('#container-dias')
 const products = document.getElementById('produtos')
-const closeButton = document.querySelector('#btn-close')
+const register = document.getElementById('cadastro')
+const closeButtonProducts = document.querySelector('#btn-close-produtos')
+const closeButtonRegister = document.querySelector('#btn-close-cadastro')
+const addButton = document.querySelector('#btn-add')
+const saveButton = document.querySelector('#btn-save')
+const listProducts = document.querySelector('#produto')
+
+// Informações do produto
+const productName = document.querySelector('#nome-produto')
+const productEan = document.querySelector('#ean-produto')
+const productValidity = document.querySelector('#vencimento-produto')
+const productAmount = document.querySelector('#quantidade-produto')
 
 // Preenchendo o campo dos meses
 month.forEach((mes, index) => {
@@ -25,7 +36,7 @@ function changeDate() {
         boxDay.classList.add('dia')
         boxDay.innerHTML = day
 
-        boxDay.addEventListener('click', showProducts)
+        boxDay.addEventListener('click', () => showProducts(day, Number(currentMonth.value) + 1, currentYear.value))
     
         containerDay.appendChild(boxDay)
     }
@@ -39,20 +50,58 @@ function removeDays() {
     }
 }
 
-// Função para cadastrar produto
-function addProduct() {
-    console.log('Add Products')
+// Função para salvar o produto
+function saveProduct() {
+    let newValidity = productValidity.value.split('-').reverse().join('/')
+
+    let product = {
+        'name': productName.value,
+        'ean': productEan.value,
+        'validity': newValidity,
+        'amount': productAmount.value
+    }
+    console.log(product)
+
+    var productBox = document.createElement('div')
+    productBox.innerHTML = `${product.name} | ${product.ean} | ${product.validity} | ${product.amount}`
+
+    localStorage.setItem(`product-${product.name}`, productBox.outerHTML)
 }
 
+saveButton.addEventListener('click', saveProduct)
+
+// Função para cadastrar produto
+function addProduct() {
+    register.style.display = 'flex'
+}
+
+addButton.addEventListener('click', addProduct)
+
 // Função para mostrar os Produtos a vencer
-function showProducts() {
+function showProducts(day, month, year) {
     products.style.display = 'flex'
+
+    for(let item in localStorage) {
+        if(item.includes('product')) {
+            if(localStorage.getItem(item).includes(`${day}/${month}/${year}`) || localStorage.getItem(item).includes(`${day}/0${month}/${year}`)) {
+                listProducts.insertAdjacentHTML('afterbegin', localStorage.getItem(item))
+            }
+        }
+    }
 }
 
 // Função para fechar janela de mostrar produtos
-closeButton.addEventListener('click', () => {
+function closeWindow() {
     products.style.display = 'none'
-})
+    register.style.display = 'none'
+
+    for(let index = listProducts.children.length - 1; index >= 0; index--) {
+        listProducts.removeChild(listProducts.children[index])
+    }
+}
+
+closeButtonProducts.addEventListener('click', closeWindow)
+closeButtonRegister.addEventListener('click', closeWindow)
 
 // Eventos ao mudar valor do ano ou do mês
 currentMonth.addEventListener('change', () => {
