@@ -34,14 +34,45 @@ function changeDate() {
     for(let day = 1; day <= numberOfDays(currentYear.value, (Number(currentMonth.value) + 1)); day++) {
         let boxDay = document.createElement('div')
         boxDay.classList.add('dia')
+        boxDay.id = day
         boxDay.innerHTML = day
 
         boxDay.addEventListener('click', () => showProducts(day, Number(currentMonth.value) + 1, currentYear.value))
     
         containerDay.appendChild(boxDay)
     }
+
+    paintBox()
 }
 changeDate()
+
+// Função para pintar a caixa do dia que possuir algum produto cadastrado
+function paintBox () {
+    for(let item in localStorage) {
+        if(item.includes('product')) {
+            if(localStorage.getItem(item).includes(localStorage.getItem(item).split('|')[2])) {
+                if(Number(currentMonth.value) + 1 == localStorage.getItem(item).split('|')[2].slice(4, 6).trim()) {
+                    if(currentYear.value == localStorage.getItem(item).split('|')[2].slice(7).trim()) {
+                        let fieldDay = document.getElementById(localStorage.getItem(item).split('|')[2].slice(0, 3).trim())
+                        fieldDay.classList.add('dia-produto')
+                    }
+                }
+            }
+        }
+    }
+}
+
+// Função que remove produtos ja vencidos
+function removeProducts() {
+    for(let item in localStorage) {
+        if(item.includes('product')) {
+            if(localStorage.getItem(item).split('|')[2].trim() < new Date().toLocaleDateString('pr-BR')) {
+                localStorage.removeItem(`product-${localStorage.getItem(item).split('|')[0].slice(5).trim()}`)
+            }
+        }
+    }
+}
+removeProducts()
 
 // Função para resetar o campo dos dias
 function removeDays() {
@@ -60,12 +91,13 @@ function saveProduct() {
         'validity': newValidity,
         'amount': productAmount.value
     }
-    console.log(product)
 
     var productBox = document.createElement('div')
     productBox.innerHTML = `${product.name} | ${product.ean} | ${product.validity} | ${product.amount}`
 
     localStorage.setItem(`product-${product.name}`, productBox.outerHTML)
+
+    location.reload()
 }
 
 saveButton.addEventListener('click', saveProduct)
