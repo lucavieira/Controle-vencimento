@@ -212,3 +212,28 @@ main {
     color: #fff;
     cursor: pointer;
 }
+
+.produto {
+    display: grid;
+    grid-template-rows: auto;
+    grid-template-columns: repeat(4, 1fr);
+
+    grid-template-areas: 
+        "nome ean validade quantidade";
+}
+
+.produto-cadastrados .produtoNome {
+    grid-area: nome;
+}
+
+.produto-cadastrados .produtoEan {
+    grid-area: ean;
+}
+
+.produto-cadastrados .produtoValidade {
+    grid-area: validade;
+}
+
+.produto-cadastrados .produtoQuantidade {
+    grid-area: quantidade;
+}

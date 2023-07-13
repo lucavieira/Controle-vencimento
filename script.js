@@ -50,10 +50,14 @@ changeDate()
 function paintBox () {
     for(let item in localStorage) {
         if(item.includes('product')) {
-            if(localStorage.getItem(item).includes(localStorage.getItem(item).split('|')[2])) {
-                if(Number(currentMonth.value) + 1 == localStorage.getItem(item).split('|')[2].slice(4, 6).trim()) {
-                    if(currentYear.value == localStorage.getItem(item).split('|')[2].slice(7).trim()) {
-                        let fieldDay = document.getElementById(localStorage.getItem(item).split('|')[2].slice(0, 3).trim())
+            let fullDate = localStorage.getItem(item).split('><')[3].trim().slice(28, 38).trim()
+            let day = fullDate.slice(0, 2)
+            let month = fullDate.slice(3, 5)
+            let year = fullDate.slice(6)
+            if(localStorage.getItem(item).includes(fullDate)) {
+                if(Number(currentMonth.value) + 1 == month) {
+                    if(currentYear.value == year) {
+                        let fieldDay = document.getElementById(day)
                         fieldDay.classList.add('dia-produto')
                     }
                 }
@@ -66,8 +70,9 @@ function paintBox () {
 function removeProducts() {
     for(let item in localStorage) {
         if(item.includes('product')) {
-            if(localStorage.getItem(item).split('|')[2].trim() < new Date().toLocaleDateString('pr-BR')) {
-                localStorage.removeItem(`product-${localStorage.getItem(item).split('|')[0].slice(5).trim()}`)
+            let endName = localStorage.getItem(item).split(' ')[2].slice(20).indexOf('<')
+            if(localStorage.getItem(item).split('><')[3].trim().slice(28, 38) < new Date().toLocaleDateString('pr-BR')) {
+                localStorage.removeItem(`product-${localStorage.getItem(item).split(' ')[2].slice(20, (20 + endName))}`)
             }
         }
     }
@@ -101,13 +106,39 @@ function saveProduct() {
         error += 'Validade Inválida! Preencha o vencimento! \n'
     }
 
-    if(product.validity != new Date().toLocaleDateString('pt-BR')) {
+    if(product.validity < new Date().toLocaleDateString('pt-BR')) {
         error += 'Validade Inválida! Data precisa ser posterior a data atual! \n'
     }
 
     if(error == 0) {
         var productBox = document.createElement('div')
-        productBox.innerHTML = `${product.name} | ${product.ean} | ${product.validity} | ${product.amount}`
+        productBox.classList.add('produto')
+
+        // let nameProduct = document.getElementById('produtoNome')
+        let name = document.createElement('div')
+        name.classList.add('produtoNome')
+        name.innerHTML = product.name
+
+        // let eanProduct = document.getElementById('produtoEan')
+        let ean = document.createElement('div')
+        ean.classList.add('produtoEan')
+        ean.innerHTML = product.ean
+
+        // let validityProduct = document.getElementById('produtoValidade')
+        let validity = document.createElement('div')
+        validity.classList.add('produtoValidade')
+        validity.innerHTML = product.validity
+
+        // let amountProduct = document.getElementById('produtoQuantidade')
+        let amount = document.createElement('div')
+        amount.classList.add('produtoQuantidade')
+        amount.innerHTML = product.amount
+
+        // productBox.innerHTML = `${product.name} | ${product.ean} | ${product.validity} | ${product.amount}`
+        productBox.appendChild(name)
+        productBox.appendChild(ean)
+        productBox.appendChild(validity)
+        productBox.appendChild(amount)
     
         localStorage.setItem(`product-${product.name}`, productBox.outerHTML)
     
@@ -147,8 +178,6 @@ function closeWindow() {
     for(let index = listProducts.children.length - 1; index >= 0; index--) {
         listProducts.removeChild(listProducts.children[index])
     }
-
-    location.reload()
 }
 
 closeButtonProducts.addEventListener('click', closeWindow)
