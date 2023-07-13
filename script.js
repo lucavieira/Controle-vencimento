@@ -164,7 +164,7 @@ function showProducts(day, month, year) {
     for(let item in localStorage) {
         if(item.includes('product')) {
             if(localStorage.getItem(item).includes(`${day}/${month}/${year}`) || localStorage.getItem(item).includes(`${day}/0${month}/${year}`)) {
-                listProducts.insertAdjacentHTML('afterbegin', localStorage.getItem(item))
+                listProducts.insertAdjacentHTML('beforeend', localStorage.getItem(item))
             }
         }
     }
@@ -175,7 +175,7 @@ function closeWindow() {
     products.style.display = 'none'
     register.style.display = 'none'
 
-    for(let index = listProducts.children.length - 1; index >= 0; index--) {
+    for(let index = listProducts.children.length - 1; index >= 1; index--) {
         listProducts.removeChild(listProducts.children[index])
     }
 }

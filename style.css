@@ -84,7 +84,7 @@ main {
 }
 
 .dia-produto {
-    background-color: #0f0c0c;
+    background-color: #456789;
 }
 
 #produtos, #cadastro {
@@ -104,7 +104,7 @@ main {
 }
 
 #container-produtos, #container-cadastro {
-    width: 300px;
+    width: 600px;
     height: 500px;
 
     background-color: #000010;
@@ -220,6 +220,14 @@ main {
 
     grid-template-areas: 
         "nome ean validade quantidade";
+    
+    gap: 15px;
+}
+
+.produto-cadastrados {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
 .produto-cadastrados .produtoNome {
@@ -236,4 +244,11 @@ main {
 
 .produto-cadastrados .produtoQuantidade {
     grid-area: quantidade;
+}
+
+.produto-cadastrados .tabela {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    padding-bottom: 6px;
+    border-bottom: 1px solid #555;
 }
