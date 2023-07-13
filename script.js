@@ -83,6 +83,7 @@ function removeDays() {
 
 // Função para salvar o produto
 function saveProduct() {
+    let error = ''
     let newValidity = productValidity.value.split('-').reverse().join('/')
 
     let product = {
@@ -92,12 +93,28 @@ function saveProduct() {
         'amount': productAmount.value
     }
 
-    var productBox = document.createElement('div')
-    productBox.innerHTML = `${product.name} | ${product.ean} | ${product.validity} | ${product.amount}`
+    if(product.ean.length != 13 || product.ean == null) {
+        error += 'EAN Inválido! Máximo de 13 digitos \n'
+    }
 
-    localStorage.setItem(`product-${product.name}`, productBox.outerHTML)
+    if(product.validity == '' ) {
+        error += 'Validade Inválida! Preencha o vencimento! \n'
+    }
 
-    location.reload()
+    if(product.validity != new Date().toLocaleDateString('pt-BR')) {
+        error += 'Validade Inválida! Data precisa ser posterior a data atual! \n'
+    }
+
+    if(error == 0) {
+        var productBox = document.createElement('div')
+        productBox.innerHTML = `${product.name} | ${product.ean} | ${product.validity} | ${product.amount}`
+    
+        localStorage.setItem(`product-${product.name}`, productBox.outerHTML)
+    
+        location.reload()
+    } else {
+        alert('Erro: \n' + error)
+    }
 }
 
 saveButton.addEventListener('click', saveProduct)
@@ -130,6 +147,8 @@ function closeWindow() {
     for(let index = listProducts.children.length - 1; index >= 0; index--) {
         listProducts.removeChild(listProducts.children[index])
     }
+
+    location.reload()
 }
 
 closeButtonProducts.addEventListener('click', closeWindow)
